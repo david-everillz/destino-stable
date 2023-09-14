@@ -1,5 +1,7 @@
 /* JS Document */
 
+//Offers page code updated v10.1.7
+
 /******************************
 
 [Table of Contents]
@@ -11,17 +13,13 @@
 5. Init Isotope
 6. Init Search
 
-
 ******************************/
 
-$(document).ready(function()
-{
+$(document).ready(function () {
 	"use strict";
 
 	/* 
-
 	1. Vars and Inits
-
 	*/
 
 	var header = $('.header');
@@ -32,13 +30,11 @@ $(document).ready(function()
 
 	setHeader();
 
-	$(window).on('resize', function()
-	{
+	$(window).on('resize', function () {
 		setHeader();
 	});
 
-	$(document).on('scroll', function()
-	{
+	$(document).on('scroll', function () {
 		setHeader();
 	});
 
@@ -53,32 +49,24 @@ $(document).ready(function()
 
 	*/
 
-	function setHeader()
-	{
-		if(window.innerWidth < 992)
-		{
-			if($(window).scrollTop() > 100)
-			{
+	function setHeader() {
+		if (window.innerWidth < 992) {
+			if ($(window).scrollTop() > 100) {
 				header.addClass('scrolled');
 			}
-			else
-			{
+			else {
 				header.removeClass('scrolled');
 			}
 		}
-		else
-		{
-			if($(window).scrollTop() > 100)
-			{
+		else {
+			if ($(window).scrollTop() > 100) {
 				header.addClass('scrolled');
 			}
-			else
-			{
+			else {
 				header.removeClass('scrolled');
 			}
 		}
-		if(window.innerWidth > 991 && menuActive)
-		{
+		if (window.innerWidth > 991 && menuActive) {
 			closeMenu();
 		}
 	}
@@ -89,32 +77,24 @@ $(document).ready(function()
 
 	*/
 
-	function initHamburger()
-	{
-		if($('.hamburger').length)
-		{
-			hamb.on('click', function(event)
-			{
+	function initHamburger() {
+		if ($('.hamburger').length) {
+			hamb.on('click', function (event) {
 				event.stopPropagation();
 
-				if(!menuActive)
-				{
+				if (!menuActive) {
 					openMenu();
-					
-					$(document).one('click', function cls(e)
-					{
-						if($(e.target).hasClass('menu_mm'))
-						{
+
+					$(document).one('click', function cls(e) {
+						if ($(e.target).hasClass('menu_mm')) {
 							$(document).one('click', cls);
 						}
-						else
-						{
+						else {
 							closeMenu();
 						}
 					});
 				}
-				else
-				{
+				else {
 					$('.menu_container').removeClass('active');
 					menuActive = false;
 				}
@@ -122,16 +102,14 @@ $(document).ready(function()
 		}
 	}
 
-	function openMenu()
-	{
+	function openMenu() {
 		var fs = $('.menu_container');
 		fs.addClass('active');
 		hambActive = true;
 		menuActive = true;
 	}
 
-	function closeMenu()
-	{
+	function closeMenu() {
 		var fs = $('.menu_container');
 		fs.removeClass('active');
 		hambActive = false;
@@ -144,26 +122,23 @@ $(document).ready(function()
 
 	*/
 
-	function initParallax()
-	{
+	function initParallax() {
 		// Add parallax effect to every element with class prlx
 		// Add class prlx_parent to the parent of the element
-		if($('.prlx_parent').length && $('.prlx').length)
-		{
+		if ($('.prlx_parent').length && $('.prlx').length) {
 			var elements = $('.prlx_parent');
 
-			elements.each(function()
-			{
+			elements.each(function () {
 				var ele = this;
 				var bcg = $(ele).find('.prlx');
 
 				var slideParallaxScene = new ScrollMagic.Scene({
-			        triggerElement: ele,
-			        triggerHook: 1,
-			        duration: "200%"
-			    })
-			    .setTween(TweenMax.from(bcg, 1, {y: '-30%', ease:Power0.easeNone}))
-			    .addTo(ctrl);
+					triggerElement: ele,
+					triggerHook: 1,
+					duration: "200%"
+				})
+					.setTween(TweenMax.from(bcg, 1, { y: '-30%', ease: Power0.easeNone }))
+					.addTo(ctrl);
 			});
 		}
 	}
@@ -174,94 +149,80 @@ $(document).ready(function()
 
 	*/
 
-	function initIsotope()
-	{
+	function initIsotope() {
 		var sortingButtons = $('.item_sorting_btn');
 
-		if($('.item_grid').length)
-		{
+		if ($('.item_grid').length) {
 			var grid = $('.item_grid').isotope({
 				itemSelector: '.item',
-	            getSortData:
-	            {
-	            	price: function(itemElement)
-	            	{
-	            		var priceEle = $(itemElement).find('.item_price').text().replace( 'From $', '' );
-	            		return parseFloat(priceEle);
-	            	},
-	            	name: '.item_title',
-	            	stars: function(itemElement)
-	            	{
-	            		var starsEle = $(itemElement).find('.rating');
-	            		var stars = starsEle.attr("data-rating");
-	            		return stars;
-	            	}
-	            },
-	            animationOptions:
-	            {
-	                duration: 750,
-	                easing: 'linear',
-	                queue: false
-	            }
-	        });
-	        
-	        // Sort based on the value from the sorting_type dropdown
-	        sortingButtons.each(function()
-	        {
-	        	$(this).on('click', function()
-	        	{
-	        		var parent = $(this).parent().parent().find('.sorting_text');
-		        		parent.text($(this).text());
-		        		var option = $(this).attr('data-isotope-option');
-		        		option = JSON.parse( option );
-	    				grid.isotope( option );
-	        	});
-	        });
+				getSortData:
+				{
+					price: function (itemElement) {
+						var priceEle = $(itemElement).find('.item_price').text().replace('From $', '');
+						return parseFloat(priceEle);
+					},
+					name: '.item_title',
+					stars: function (itemElement) {
+						var starsEle = $(itemElement).find('.rating');
+						var stars = starsEle.attr("data-rating");
+						return stars;
+					}
+				},
+				animationOptions:
+				{
+					duration: 750,
+					easing: 'linear',
+					queue: false
+				}
+			});
 
-	        // Filtering
-	        $('.item_filter_btn').on('click', function()
-	        {
-	        	var parent = $(this).parent().parent().find('.sorting_text');
-	        	parent.text($(this).text());
-		        var filterValue = $(this).attr('data-filter');
+			// Sort based on the value from the sorting_type dropdown
+			sortingButtons.each(function () {
+				$(this).on('click', function () {
+					var parent = $(this).parent().parent().find('.sorting_text');
+					parent.text($(this).text());
+					var option = $(this).attr('data-isotope-option');
+					option = JSON.parse(option);
+					grid.isotope(option);
+				});
+			});
+
+			// Filtering
+			$('.item_filter_btn').on('click', function () {
+				var parent = $(this).parent().parent().find('.sorting_text');
+				parent.text($(this).text());
+				var filterValue = $(this).attr('data-filter');
 				grid.isotope({ filter: filterValue });
-	        });
+			});
 
-	        // Change view to Box
-	        if($('.box_view').length)
-	        {
-	        	var box = $('.box_view');
-	        	box.on('click', function()
-	        	{
-	        		if(window.innerWidth > 767)
-	        		{
-	        			$('.item').addClass('box');
-		        		var option = '{ "sortBy": "original-order" }';
-		        		option = JSON.parse(option);
+			// Change view to Box
+			if ($('.box_view').length) {
+				var box = $('.box_view');
+				box.on('click', function () {
+					if (window.innerWidth > 767) {
+						$('.item').addClass('box');
+						var option = '{ "sortBy": "original-order" }';
+						option = JSON.parse(option);
 						grid.isotope(option);
-	        		}	
-	        	});
-	        }
+					}
+				});
+			}
 
-	        // Change view to List
-	        if($('.detail_view').length)
-	        {
-	        	var detail = $('.detail_view');
-	        	detail.on('click', function()
-	        	{
-	        		if(window.innerWidth > 767)
-	        		{
-	        			$('.item').removeClass('box');
-		        		var option = '{ "sortBy": "original-order" }';
-		        		option = JSON.parse(option);
-		        		grid.isotope(option);
-		        		setTimeout(function()
-		        		{
-		        			grid.isotope(option);
-		        		},500);
-	        		}
-	        	});
-	        }
+			// Change view to List
+			if ($('.detail_view').length) {
+				var detail = $('.detail_view');
+				detail.on('click', function () {
+					if (window.innerWidth > 767) {
+						$('.item').removeClass('box');
+						var option = '{ "sortBy": "original-order" }';
+						option = JSON.parse(option);
+						grid.isotope(option);
+						setTimeout(function () {
+							grid.isotope(option);
+						}, 500);
+					}
+				});
+			}
 		}
 	}
 
@@ -271,16 +232,12 @@ $(document).ready(function()
 
 	*/
 
-	function initSearch()
-	{
-		if($('.search').length)
-		{
+	function initSearch() {
+		if ($('.search').length) {
 			var search = $('.search');
-			search.on('click', function(e)
-			{
+			search.on('click', function (e) {
 				var target = $(e.target);
-				if(!target.hasClass('ctrl_class'))
-				{
+				if (!target.hasClass('ctrl_class')) {
 					$(this).toggleClass('active');
 				}
 			});
